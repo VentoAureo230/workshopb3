@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
         foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
       ),
       onPressed: () { },
-      child: Text('TextButton'),
+      child: const Text('TextButton'),
     );
 
   }
