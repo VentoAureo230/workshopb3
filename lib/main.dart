@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workshopb3/pages/home_page.dart';
+import 'package:workshopb3/pages/profile_page.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -13,8 +14,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
       routes: {
-        '/homepage': (context) => HomePage(),
-        //'/profile': (context) => const ProfilePage(),
+        '/homepage': (context) => const HomePage(),
+        '/profile': (context) => const ProfilePage(),
         //'/settings': (context) => const SettingsPage(),
       },
     );
