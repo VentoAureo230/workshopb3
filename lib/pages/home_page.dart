@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: BlueColor,
         title: const Text(
           "Jobbe",
-          style: TextStyle(color: BlueColor),
+          style: TextStyle(color: BlackColor),
         ),
         elevation: 0,
       ),
