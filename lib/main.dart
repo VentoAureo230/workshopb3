@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workshopb3/auth/auth.dart';
 import 'package:workshopb3/pages/chat_page.dart';
 import 'package:workshopb3/pages/home_page.dart';
 import 'package:workshopb3/pages/profile_page.dart';
@@ -18,11 +19,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        
-      ),
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: const AuthPage(),
       routes: {
         '/homepage': (context) => const HomePage(),
         '/profile': (context) => const ProfilePage(),

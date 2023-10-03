@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:workshopb3/theme/colors.dart';
 
 import '../components/login_button.dart';
 import '../components/text_field.dart';
@@ -63,7 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: GreyColor,
       body: SafeArea(
           child: Center(
         child: Padding(
@@ -72,10 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               //logo
-              const Icon(
-                Icons.lock,
-                size: 100,
-              ),
+              Image.asset('images/logo.png', width: 75, height: 75,),
               //greetings
               const SizedBox(
                 height: 25,
