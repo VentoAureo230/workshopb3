@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../theme/colors.dart';
 
-class LikeBtn extends StatelessWidget {
+class SkipBtn extends StatelessWidget {
   final void Function()? onTap;
-  const LikeBtn({super.key, required this.onTap});
+  const SkipBtn({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +12,7 @@ class LikeBtn extends StatelessWidget {
       child: const Icon(
         Icons.block_rounded,
         color: CrimsonColor,
+        size: 75,
       ),
     );
   }

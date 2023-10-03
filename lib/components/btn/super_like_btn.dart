@@ -12,6 +12,7 @@ class SuperLikeBtn extends StatelessWidget {
       child: const Icon(
         Icons.star_rounded,
         color: BlueColor,
+        size: 50,
       ),
     );
   }

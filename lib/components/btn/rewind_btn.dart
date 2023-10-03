@@ -8,7 +8,7 @@ class RewindBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: const Icon(Icons.autorenew_rounded, color: Colors.orange,),
+      child: const Icon(Icons.autorenew_rounded, color: Colors.orange, size: 50,),
     );
   }
 }
