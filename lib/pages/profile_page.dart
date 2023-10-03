@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:workshopb3/components/app_bar.dart';
-import 'package:workshopb3/components/text_field.dart';
+import 'package:workshopb3/components/text_box.dart';
 import 'package:workshopb3/theme/colors.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -14,11 +15,17 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  // a faire sauter ?
   final nameController = TextEditingController();
   final ageController = TextEditingController();
   final bioController = TextEditingController();
   final expController = TextEditingController();
   final diplomaController = TextEditingController();
+
+  // user
+  final currentUser = FirebaseAuth.instance.currentUser!;
+  // all users
+  final allUsers = FirebaseFirestore.instance.collection("Users");
 
   // log out
   void signOut() {
@@ -33,36 +40,43 @@ class _ProfilePageState extends State<ProfilePage> {
             ));
   }
 
-  void saveData() async {
-    showDialog(
+  // edit field
+  Future<void> editField(String field) async {
+    String newValue = "";
+    await showDialog(
       context: context,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator(),
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.grey,
+        title: Text(
+          'Edit $field',
+          style: const TextStyle(color: WhiteColor),
+        ),
+        content: TextField(
+          autofocus: true,
+          style: const TextStyle(color: WhiteColor),
+          decoration: InputDecoration(
+            hintText: 'Enter new $field',
+            hintStyle: const TextStyle(color: GreyColor),
+          ),
+          onChanged: (value) {
+            newValue = value;
+          },
+        ),
+        actions: [
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () => Navigator.pop(context),
+          ),
+          TextButton(
+            child: const Text('Save'),
+            onPressed: () => Navigator.of(context).pop(newValue),
+          ),
+        ],
       ),
     );
 
-    if (nameController.text.isEmpty || ageController.text.isEmpty) {
-      Navigator.pop(context);
-      displayMessage("Please enter a name and your age !");
-    }
-
-    try {
-      UserCredential userCreds =
-          (await FirebaseAuth.instance.currentUser) as UserCredential;
-
-      FirebaseFirestore.instance
-          .collection("Users")
-          .doc(userCreds.user!.email)
-          .set({
-        'Full name': nameController.text,
-        'Age': ageController.text,
-        'Biography': bioController.text,
-        'Experience': expController.text,
-        'Diploma': diplomaController.text,
-      });
-    } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
-      displayMessage(e.code);
+    if (newValue.trim().isNotEmpty) {
+      await allUsers.doc(currentUser.email).update({field: newValue});
     }
   }
 
@@ -70,74 +84,89 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: GreyColor,
-      body: Column(
-        children: [
-          Text("Profile Page"),
-          SizedBox(
-            height: 25,
-          ),
-          Text("Full name"),
-          SizedBox(
-            height: 25,
-          ),
-          MyTextField(
-              controller: nameController, hintText: "Doe", obscureText: false),
-          SizedBox(
-            height: 25,
-          ),
-          Text("Age"),
-          SizedBox(
-            height: 25,
-          ),
-          MyTextField(
-              controller: ageController, hintText: "18", obscureText: false),
-          SizedBox(
-            height: 25,
-          ),
-          Text("Biography"),
-          SizedBox(
-            height: 25,
-          ),
-          MyTextField(
-              controller: bioController,
-              hintText: "Say something nice about yourself !",
-              obscureText: false),
-          SizedBox(
-            height: 25,
-          ),
-          Text("Experiences"),
-          SizedBox(
-            height: 25,
-          ),
-          MyTextField(
-              controller: expController,
-              hintText: "What are some of your recent experiences ?",
-              obscureText: false),
-          SizedBox(
-            height: 25,
-          ),
-          Text("Diplomas"),
-          SizedBox(
-            height: 25,
-          ),
-          MyTextField(
-              controller: diplomaController,
-              hintText: "PhD,Licence,...",
-              obscureText: false),
-        ],
-      ),
+      body:StreamBuilder<DocumentSnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection("Users")
+              .doc(currentUser.email)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final userData = snapshot.data!.data() as Map<String, dynamic>;
+              return ListView(
+                padding: const EdgeInsets.only(left: 15),
+                children: [
+                  const SizedBox(
+                    height: 65,
+                  ),
+                  // profile picture
+                  ProfilePicture(name: userData['username'], radius: 31, fontsize: 21,),
+                  // user email
+                  Text(
+                    currentUser.email!,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  // user name
+                  TextBox(
+                    text: userData['username'],
+                    sectionName: 'Full Name',
+                    onPressed: () => editField('username'),
+                  ),
+                  // bio
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  TextBox(
+                    text: userData['bio'],
+                    sectionName: 'Biography',
+                    onPressed: () => editField('bio'),
+                  ),
+                  // age
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  TextBox(
+                    text: userData['age'],
+                    sectionName: 'Age',
+                    onPressed: () => editField('age'),
+                  ),
+                  // exp
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  TextBox(
+                    text: userData['experiences'],
+                    sectionName: 'Experiences',
+                    onPressed: () => editField('experiences'),
+                  ),
+                  // diplome
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  TextBox(
+                    text: userData['diploma'],
+                    sectionName: 'Diplomas',
+                    onPressed: () => editField('diploma'),
+                  ),                  
+                ],
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text(snapshot.error.toString()),
+              );
+            }
+            return const CircularProgressIndicator();
+          }),
       bottomNavigationBar: BottomNavBar(
         currentIndex: 2, // L'index de la page actuelle
         onTap: (index) {
-          // Gérez la navigation vers la page correspondante ici
           if (index == 0) {
-            // Naviguez vers la page d'accueil (HomePage)
             Navigator.pushNamed(context, '/homepage');
           } else if (index == 1) {
-            // Naviguez vers la page de profil (ChatPage)
             Navigator.pushNamed(context, '/chat');
           } else if (index == 2) {
-            // Naviguez vers la page de chat (ProfilePage)
             Navigator.pushNamed(context, '/profile');
           }
         },

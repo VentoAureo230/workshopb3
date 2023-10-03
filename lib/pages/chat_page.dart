@@ -14,7 +14,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: GreyColor,
-      body: Center(child: Text("ChatBox")),
+      body: const Center(child: Text("ChatBox")),
       bottomNavigationBar: BottomNavBar(
         currentIndex: 1, // L'index de la page actuelle
         onTap: (index) {
