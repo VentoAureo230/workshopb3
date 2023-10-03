@@ -12,6 +12,7 @@ class LikeBtn extends StatelessWidget {
       child: const Icon(
         Icons.favorite_rounded,
         color: AquaColor,
+        size: 75,
       ),
     );
   }

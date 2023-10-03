@@ -18,6 +18,10 @@ class _RegisterPageState extends State<RegisterPage> {
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
   final confirmPasswordTextController = TextEditingController();
+  final bioController = TextEditingController();
+  final ageController = TextEditingController();
+  final experienceController = TextEditingController();
+  final diplomaController = TextEditingController();
 
   void signUp() async {
     showDialog(
@@ -44,7 +48,10 @@ class _RegisterPageState extends State<RegisterPage> {
           .doc(userCreds.user!.email)
           .set({
         'username': emailTextController.text.split('@')[0],
-        'bio': 'Say something about yourself !',
+        'bio': bioController,
+        'age': ageController,
+        'experiences': experienceController,
+        'diploma': diplomaController
       });
       if (context.mounted) Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
@@ -73,7 +80,11 @@ class _RegisterPageState extends State<RegisterPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               //logo
-              Image.asset('images/logo.png', width: 75, height: 75,),
+              Image.asset(
+                'images/logo.png',
+                width: 75,
+                height: 75,
+              ),
               //greetings
               const SizedBox(
                 height: 25,
@@ -88,6 +99,38 @@ class _RegisterPageState extends State<RegisterPage> {
                 hintText: "johndoe@email.com",
                 obscureText: false,
               ),
+              // bio
+              const SizedBox(
+                height: 10,
+              ),
+              MyTextField(
+                  controller: bioController,
+                  hintText: "Say something about yourself",
+                  obscureText: false),
+              // age
+              const SizedBox(
+                height: 10,
+              ),
+              MyTextField(
+                  controller: ageController,
+                  hintText: "18",
+                  obscureText: false),
+              // experience
+              const SizedBox(
+                height: 10,
+              ),
+              MyTextField(
+                  controller: experienceController,
+                  hintText: "What's your most recent experience ?",
+                  obscureText: false),
+              // diploma
+              const SizedBox(
+                height: 10,
+              ),
+              MyTextField(
+                  controller: diplomaController,
+                  hintText: "What's your last diploma ?",
+                  obscureText: false),
               //password
               const SizedBox(
                 height: 10,
@@ -97,7 +140,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 hintText: "Password",
                 obscureText: true,
               ),
-
               //Confirm password
               const SizedBox(
                 height: 10,
