@@ -5,8 +5,4 @@ const BlackColor = Color(0xff252525);
 const WhiteColor = Color(0xffFDFDFD);
 const GreyColor = Color(0xffF3F4F5);
 const AquaColor = Color(0xff63DFA9);
-<<<<<<< HEAD
 const CrimsonColor = Color(0xffD61B3E);
-=======
-const CrimsonColor = Color(0xffD61B3E);
->>>>>>> develop
