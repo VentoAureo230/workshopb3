@@ -1,33 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:workshopb3/components/app_bar.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class ChatPage extends StatefulWidget {
+  const ChatPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<ChatPage> createState() => _ChatPageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  // log out
-  void signOut() {
-    // utiliser firebase pour ça
-  }
-
-  // Go to profile
-  void goToProfilePage() {
-    Navigator.pop(context);
-    Navigator.pushNamed(context, '/profile');
-  }
-
+class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(
-        child: Text('Contenu de la page d\'accueil'),
-      ),
+      body: Center(child: Text("ChatBox")),
       bottomNavigationBar: BottomNavBar(
-        currentIndex: 0, // L'index de la page actuelle
+        currentIndex: 1, // L'index de la page actuelle
         onTap: (index) {
           // Gérez la navigation vers la page correspondante ici
           if (index == 0) {
