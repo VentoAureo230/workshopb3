@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:workshopb3/components/app_bar.dart';
+=======
+import 'package:workshopb3/theme/colors.dart';
+>>>>>>> develop
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -13,6 +17,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD
       bottomNavigationBar: BottomNavBar(
         currentIndex: 2, // L'index de la page actuelle
         onTap: (index) {
@@ -29,6 +34,9 @@ class _ProfilePageState extends State<ProfilePage> {
           }
         },
       ),
+=======
+      appBar: AppBar(title: const Text("Profile Page", style: TextStyle(color: BlackColor))),
+>>>>>>> develop
     );
   }
 }

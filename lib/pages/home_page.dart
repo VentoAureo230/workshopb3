@@ -1,5 +1,12 @@
+// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:workshopb3/components/app_bar.dart';
+=======
+import '../components/drawer.dart';
+import '../theme/colors.dart';
+>>>>>>> develop
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,7 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // log out
   void signOut() {
-    // utiliser firebase pour ça
+    FirebaseAuth.instance.signOut();
   }
 
   // Go to profile
@@ -23,8 +30,18 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD
       body: const Center(
         child: Text('Contenu de la page d\'accueil'),
+=======
+      appBar: AppBar(
+        backgroundColor: BlueColor,
+        title: const Text(
+          "Jobbe",
+          style: TextStyle(color: BlackColor),
+        ),
+        elevation: 0,
+>>>>>>> develop
       ),
       bottomNavigationBar: BottomNavBar(
         currentIndex: 0, // L'index de la page actuelle
