@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workshopb3/theme/colors.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -8,13 +9,11 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  
-  void deleteSomething() {} // logique de supression d'un truc
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Profile Page")),
+      appBar: AppBar(title: const Text("Profile Page", style: TextStyle(color: BlackColor))),
     );
   }
 }
