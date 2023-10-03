@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "346970784102",
+    "project_id": "jobbe-6013c",
+    "storage_bucket": "jobbe-6013c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346970784102:android:e201807aae2789e11b08a7",
+        "android_client_info": {
+          "package_name": "com.example.workshopb3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6vff6LzuGL41u0CCjTzrw1TD3cyl9xYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
