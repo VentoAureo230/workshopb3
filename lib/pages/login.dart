@@ -3,6 +3,7 @@ import 'package:workshopb3/components/login_button.dart';
 import 'package:workshopb3/components/text_field.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../theme/colors.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
@@ -46,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: GreyColor,
       body: SafeArea(
           child: Center(
         child: Padding(

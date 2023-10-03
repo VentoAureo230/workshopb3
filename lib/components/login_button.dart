@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/colors.dart';
 
 class LoginButton extends StatelessWidget {
   final Function()? onTap;
@@ -13,7 +14,7 @@ class LoginButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(25),
         decoration: BoxDecoration(
-          color: Colors.black,
+          color: BlackColor,
           borderRadius: BorderRadius.circular(8),
         ),
         child: 
@@ -22,7 +23,7 @@ class LoginButton extends StatelessWidget {
               Text(
                 text,
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: WhiteColor,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
             )

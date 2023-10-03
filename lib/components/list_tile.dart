@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/colors.dart';
 
 class ListTileDrawer extends StatelessWidget {
   final IconData icon;
@@ -11,7 +12,7 @@ class ListTileDrawer extends StatelessWidget {
     return ListTile(
       leading: Icon(
         icon,
-        color: Colors.white,
+        color: WhiteColor,
       ),
       onTap: onTap,
       title: Text(text, style: const TextStyle(color: Colors.white)),
