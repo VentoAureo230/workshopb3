@@ -80,30 +80,39 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    RewindBtn(
-                      onTap: () {
-                        handleSkip();
-                      },
-                    ),
-                    SkipBtn(
-                      onTap: () {
-                        handleSkip();
-                      },
-                    ),
-                    LikeBtn(
-                      onTap: () {
-                        handleLike();
-                      },
-                    ),
-                    SuperLikeBtn(
-                      onTap: () {
-                        handleLike();
-                      },
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 20, bottom: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top:12),
+                        child: RewindBtn(
+                          onTap: () {
+                            handleSkip();
+                          },
+                        ),
+                      ),
+                      SkipBtn(
+                        onTap: () {
+                          handleSkip();
+                        },
+                      ),
+                      LikeBtn(
+                        onTap: () {
+                          handleLike();
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top:12),
+                        child: SuperLikeBtn(
+                          onTap: () {
+                            handleLike();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
