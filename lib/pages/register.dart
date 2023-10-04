@@ -48,10 +48,10 @@ class _RegisterPageState extends State<RegisterPage> {
           .doc(userCreds.user!.email)
           .set({
         'username': emailTextController.text.split('@')[0],
-        'bio': bioController,
-        'age': ageController,
-        'experiences': experienceController,
-        'diploma': diplomaController
+        'bio': bioController.text,
+        'age': ageController.text,
+        'experiences': experienceController.text,
+        'diploma': diplomaController.text
       });
       if (context.mounted) Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
