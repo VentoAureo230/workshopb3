@@ -43,15 +43,15 @@ class _RegisterPageState extends State<RegisterPage> {
               email: emailTextController.text,
               password: passwordTextController.text);
 
-      FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection("Users")
           .doc(userCreds.user!.email)
           .set({
         'username': emailTextController.text.split('@')[0],
-        'bio': bioController,
-        'age': ageController,
-        'experiences': experienceController,
-        'diploma': diplomaController
+        'bio': 'Say something about yourself',
+        'age': ageController.text,
+        'experiences': '',
+        'diploma': ''
       });
       if (context.mounted) Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
@@ -99,14 +99,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 hintText: "johndoe@email.com",
                 obscureText: false,
               ),
-              // bio
-              const SizedBox(
-                height: 10,
-              ),
-              MyTextField(
-                  controller: bioController,
-                  hintText: "Say something about yourself",
-                  obscureText: false),
               // age
               const SizedBox(
                 height: 10,
@@ -114,22 +106,6 @@ class _RegisterPageState extends State<RegisterPage> {
               MyTextField(
                   controller: ageController,
                   hintText: "18",
-                  obscureText: false),
-              // experience
-              const SizedBox(
-                height: 10,
-              ),
-              MyTextField(
-                  controller: experienceController,
-                  hintText: "What's your most recent experience ?",
-                  obscureText: false),
-              // diploma
-              const SizedBox(
-                height: 10,
-              ),
-              MyTextField(
-                  controller: diplomaController,
-                  hintText: "What's your last diploma ?",
                   obscureText: false),
               //password
               const SizedBox(

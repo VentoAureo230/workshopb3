@@ -21,7 +21,10 @@ class TextBox extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(sectionName, style: const TextStyle(fontSize: 14, color: BlueColor),)
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(sectionName, style: const TextStyle(fontSize: 14, color: BlueColor),),
+              )
             ],
           ),
           Row(

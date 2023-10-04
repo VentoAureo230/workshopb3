@@ -9,10 +9,20 @@ class SuperLikeBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: const Icon(
-        Icons.star_rounded,
-        color: BlueColor,
-        size: 50,
+      child: Container(
+        width: 50,
+        height: 50,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: BlueColor,
+        ),
+        child: const Center(
+          child: Icon(
+            Icons.stars_rounded,
+            color: Colors.white,
+            size: 30,
+          ),
+        ),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:workshopb3/components/app_bar.dart';
 import 'package:workshopb3/components/user_slide.dart';
@@ -15,14 +16,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int currentIndex = 0;
+  int currentIndex = 0; // nav bar
+  final allUsers = FirebaseFirestore.instance.collection("Users");
+  
   List<UserProfileCard> userProfiles = [
     const UserProfileCard(
       fullName: 'John Doe',
       age: '30',
       biography: 'A software developer who loves coding.',
       experiences: '5 years of experience in mobile app development.',
-      diplomas: 'Bachelor\'s in Computer Science, Master\'s in Software Engineering',
+      diplomas:
+          'Bachelor\'s in Computer Science, Master\'s in Software Engineering',
     ),
     const UserProfileCard(
       fullName: 'Jane Smith',
@@ -31,7 +35,6 @@ class _HomePageState extends State<HomePage> {
       experiences: 'UX/UI Designer with a focus on mobile apps.',
       diplomas: 'Bachelor\'s in Graphic Design',
     ),
-    // Add more user profiles here...
   ];
   int currentProfileIndex = 0;
 
@@ -66,44 +69,63 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.8, // Adjust height as needed
-                  child: ListView.builder(
-                    itemCount: userProfiles.length,
-                    itemBuilder: (context, index) {
-                      final userProfile = userProfiles[index];
-                      return AnimatedPositioned(
-                        duration: const Duration(milliseconds: 300),
-                        left: index == currentProfileIndex ? 0 : -MediaQuery.of(context).size.width,
-                        right: index == currentProfileIndex ? 0 : -MediaQuery.of(context).size.width,
-                        child: userProfile,
-                      );
-                    },
+                    height: MediaQuery.of(context).size.height *
+                        0.8, // Adjust height as needed
+                    child: ListView.builder(
+                      itemCount: userProfiles.length,
+                      itemBuilder: (context, index) {
+                        final userProfile = userProfiles[index];
+                        return AnimatedPositioned(
+                          duration: const Duration(milliseconds: 300),
+                          left: index == currentProfileIndex
+                              ? 0
+                              : -MediaQuery.of(context).size.width,
+                          right: index == currentProfileIndex
+                              ? 0
+                              : -MediaQuery.of(context).size.width,
+                          child: UserProfileCard(
+                            fullName: userProfile.fullName,
+                            age: userProfile.age,
+                            biography: userProfile.biography,
+                            experiences: userProfile.experiences,
+                            diplomas: userProfile.diplomas,
+                          ),
+                        );
+                      },
+                    )),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20, bottom: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12),
+                        child: RewindBtn(
+                          onTap: () {
+                            handleSkip();
+                          },
+                        ),
+                      ),
+                      SkipBtn(
+                        onTap: () {
+                          handleSkip();
+                        },
+                      ),
+                      LikeBtn(
+                        onTap: () {
+                          handleLike();
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12),
+                        child: SuperLikeBtn(
+                          onTap: () {
+                            handleLike();
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    RewindBtn(
-                      onTap: () {
-                        handleSkip();
-                      },
-                    ),
-                    SkipBtn(
-                      onTap: () {
-                        handleSkip();
-                      },
-                    ),
-                    LikeBtn(
-                      onTap: () {
-                        handleLike();
-                      },
-                    ),
-                    SuperLikeBtn(
-                      onTap: () {
-                        handleLike();
-                      },
-                    ),
-                  ],
                 ),
               ],
             ),

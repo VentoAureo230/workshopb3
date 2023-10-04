@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
@@ -15,13 +19,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  // a faire sauter ?
-  final nameController = TextEditingController();
-  final ageController = TextEditingController();
-  final bioController = TextEditingController();
-  final expController = TextEditingController();
-  final diplomaController = TextEditingController();
-
   // user
   final currentUser = FirebaseAuth.instance.currentUser!;
   // all users
@@ -30,6 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
   // log out
   void signOut() {
     FirebaseAuth.instance.signOut();
+    Navigator.pushNamed(context, '/login');
   }
 
   void displayMessage(String message) {
@@ -38,6 +36,42 @@ class _ProfilePageState extends State<ProfilePage> {
         builder: (context) => AlertDialog(
               title: Text(message),
             ));
+  }
+
+  // Uploader
+  Future uploadPdfToStorage(File pdfFile) async {
+    try {
+      Reference ref = FirebaseStorage.instance
+          .ref()
+          .child('pdfs/${DateTime.now().millisecondsSinceEpoch}');
+      UploadTask uploadTask =
+          ref.putFile(pdfFile, SettableMetadata(contentType: 'pdf'));
+      TaskSnapshot snapshot = await uploadTask;
+      String url = await snapshot.ref.getDownloadURL();
+      return url;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // Fonction pour choisir et uploader un fichier
+  Future<void> uploadFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      File file =
+          File(result.files.single.path!); // Use ! to assert that it's not null
+
+      // Call your uploadPdfToStorage function with the chosen file
+      String? url = await uploadPdfToStorage(file);
+
+      if (url != null) {
+        // The upload was successful, do whatever you want with the URL
+        displayMessage('File uploaded successfully. URL: $url');
+      } else {
+        displayMessage('File upload failed.');
+      }
+    }
   }
 
   // edit field
@@ -84,7 +118,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: GreyColor,
-      body:StreamBuilder<DocumentSnapshot>(
+      body: StreamBuilder<DocumentSnapshot>(
           stream: FirebaseFirestore.instance
               .collection("Users")
               .doc(currentUser.email)
@@ -99,7 +133,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: 65,
                   ),
                   // profile picture
-                  ProfilePicture(name: userData['username'], radius: 31, fontsize: 21,),
+                  ProfilePicture(
+                    name: userData['username'],
+                    radius: 31,
+                    fontsize: 21,
+                  ),
                   // user email
                   Text(
                     currentUser.email!,
@@ -149,7 +187,21 @@ class _ProfilePageState extends State<ProfilePage> {
                     text: userData['diploma'],
                     sectionName: 'Diplomas',
                     onPressed: () => editField('diploma'),
-                  ),                  
+                  ),
+                  // upload resume
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton(
+                          onPressed: uploadFile, child: const Text('Resume')),
+                      // sign out
+                      TextButton(
+                          onPressed: signOut, child: const Text('Sign out')),
+                    ],
+                  )
                 ],
               );
             } else if (snapshot.hasError) {
