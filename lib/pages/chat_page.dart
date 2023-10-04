@@ -39,7 +39,7 @@ class _ChatPageState extends State<ChatPage> {
     {
       "name": "Charly",
       "imageUrl": "http://placebeard.it/450/500",
-      "message": "Hello Anthony !"
+      "message": "Hello Test !"
     },
   ];
 
