@@ -15,13 +15,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  // a faire sauter ?
-  final nameController = TextEditingController();
-  final ageController = TextEditingController();
-  final bioController = TextEditingController();
-  final expController = TextEditingController();
-  final diplomaController = TextEditingController();
-
   // user
   final currentUser = FirebaseAuth.instance.currentUser!;
   // all users
@@ -159,6 +152,7 @@ class _ProfilePageState extends State<ProfilePage> {
             }
             return const CircularProgressIndicator();
           }),
+          
       bottomNavigationBar: BottomNavBar(
         currentIndex: 2, // L'index de la page actuelle
         onTap: (index) {
