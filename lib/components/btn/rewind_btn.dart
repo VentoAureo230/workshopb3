@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workshopb3/theme/colors.dart';
 
 class RewindBtn extends StatelessWidget {
   final void Function()? onTap;
@@ -8,7 +9,21 @@ class RewindBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: const Icon(Icons.autorenew_rounded, color: Colors.orange, size: 50,),
+      child: Container(
+        height: 45,
+        width: 45,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.orange,
+        ),
+        child: const Center(
+          child: Icon(
+            Icons.autorenew_rounded,
+            color: WhiteColor,
+            size: 30,
+          ),
+        ),
+      ),
     );
   }
 }

@@ -8,12 +8,19 @@ class SuperLikeBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
-      child: const Icon(
-        Icons.star_rounded,
-        color: BlueColor,
-        size: 50,
-      ),
-    );
+        onTap: onTap,
+        child: Container(
+          height: 45,
+          width: 45,
+          decoration:
+              const BoxDecoration(shape: BoxShape.circle, color: BlueColor),
+          child: const Center(
+            child: Icon(
+              Icons.star_rounded,
+              color: WhiteColor,
+              size: 30,
+            ),
+          ),
+        ));
   }
 }

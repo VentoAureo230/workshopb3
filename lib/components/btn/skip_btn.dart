@@ -9,11 +9,19 @@ class SkipBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: const Icon(
+      child: Container(
+        height: 65,
+        width: 65,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: CrimsonColor,
+        ),
+        child: const Icon(
         Icons.block_rounded,
-        color: CrimsonColor,
-        size: 75,
+        color: WhiteColor,
+        size: 50,
       ),
+      )
     );
   }
 }
