@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
@@ -23,6 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
   // log out
   void signOut() {
     FirebaseAuth.instance.signOut();
+    Navigator.pushNamed(context, '/login');
   }
 
   void displayMessage(String message) {
@@ -31,6 +36,37 @@ class _ProfilePageState extends State<ProfilePage> {
         builder: (context) => AlertDialog(
               title: Text(message),
             ));
+  }
+
+  // filepicker
+  Future uploadPdfToStorage(File pdfFile) async {
+    try {
+      Reference ref = FirebaseStorage.instance
+          .ref()
+          .child('pdfs/${DateTime.now().millisecondsSinceEpoch}');
+      UploadTask uploadTask =
+          ref.putFile(pdfFile, SettableMetadata(contentType: 'pdf'));
+      TaskSnapshot snapshot = await uploadTask;
+      String url = await snapshot.ref.getDownloadURL();
+      return url;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<void> uploadFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      File file =
+          File(result.files.single.path!);
+      String? url = await uploadPdfToStorage(file);
+
+      if (url != null) {
+        displayMessage('File uploaded successfully. URL: $url');
+      } else {
+        displayMessage('File upload failed.');
+      }
+    }
   }
 
   // edit field
@@ -77,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: GreyColor,
-      body:StreamBuilder<DocumentSnapshot>(
+      body: StreamBuilder<DocumentSnapshot>(
           stream: FirebaseFirestore.instance
               .collection("Users")
               .doc(currentUser.email)
@@ -92,7 +128,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: 65,
                   ),
                   // profile picture
-                  ProfilePicture(name: userData['username'], radius: 31, fontsize: 21,),
+                  ProfilePicture(
+                    name: userData['username'],
+                    radius: 31,
+                    fontsize: 21,
+                  ),
                   // user email
                   Text(
                     currentUser.email!,
@@ -142,7 +182,29 @@ class _ProfilePageState extends State<ProfilePage> {
                     text: userData['diploma'],
                     sectionName: 'Diplomas',
                     onPressed: () => editField('diploma'),
-                  ),                  
+                  ),
+                  // upload resume
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  //TextButton(onPressed: uploadPdfToStorage, child: const Text('Resume')),
+                  // sign out
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                          onPressed: signOut, 
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: CrimsonColor
+                          ),
+                          child: const Text('Sign out'),
+                          ),
+                      ElevatedButton(
+                        onPressed: uploadFile,
+                        child: const Text('Upload Resume'),
+                      ),
+                    ],
+                  ),
                 ],
               );
             } else if (snapshot.hasError) {
@@ -152,7 +214,6 @@ class _ProfilePageState extends State<ProfilePage> {
             }
             return const CircularProgressIndicator();
           }),
-          
       bottomNavigationBar: BottomNavBar(
         currentIndex: 2, // L'index de la page actuelle
         onTap: (index) {
