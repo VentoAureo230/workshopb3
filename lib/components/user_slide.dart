@@ -7,6 +7,7 @@ class UserProfileCard extends StatelessWidget {
   final String biography;
   final String experiences;
   final String diplomas;
+  final String workplace;
 
   const UserProfileCard({
     super.key,
@@ -16,6 +17,7 @@ class UserProfileCard extends StatelessWidget {
     required this.biography,
     required this.experiences,
     required this.diplomas,
+    required this.workplace,
   });
 
   @override
@@ -30,11 +32,16 @@ class UserProfileCard extends StatelessWidget {
           children: [
             Image.asset(image),
             const SizedBox(height: 8.0),
-            Text(
-              'Full Name: $fullName',
-              style: const TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
+              child: Center(
+                child: Text(
+                  '$fullName - $workplace',
+                  style: const TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 8.0),

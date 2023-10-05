@@ -19,16 +19,20 @@ class _HomePageState extends State<HomePage> {
   List<UserProfileCard> userProfiles = [
     const UserProfileCard(
       image: 'images/man.png',
-      fullName: 'John Doe',
-      age: '30',
-      biography: 'A software developer who loves coding.',
-      experiences: '5 years of experience in mobile app development.',
+      fullName: 'John Smith',
+      workplace: 'Alliance Healtcare',
+      age: '35',
+      biography:
+          'I am an HR prfessional specializing in healthcare recruitment.',
+      experiences: '10 years of experience in healthcare HR recruitment.',
       diplomas:
-          'Bachelor\'s in Computer Science, Master\'s in Software Engineering', 
+          'Bachelor\'s in Human Resources, Master\'s in Healthcare Management',
     ),
+
     const UserProfileCard(
       image: 'images/woman.png',
-      fullName: 'Jane Smith',
+      fullName: 'Jane Smith', 
+      workplace: 'Extia',
       age: '28',
       biography: 'Passionate about design and user experience.',
       experiences: 'UX/UI Designer with a focus on mobile apps.',
@@ -76,24 +80,21 @@ class _HomePageState extends State<HomePage> {
                       children: userProfiles.asMap().entries.map((entry) {
                         final index = entry.key;
                         final userProfile = entry.value;
-                  
                         final topPosition = index * 20.0;
-                        final rotation = index == currentProfileIndex
-                            ? 0.0
-                            : index < currentProfileIndex
-                                ? -0.1
-                                : 0.1;
-                  
-                        return AnimatedPositioned(
-                          duration: const Duration(milliseconds: 300),
-                          top: topPosition,
-                          right: 0,
-                          left: 0,
-                          child: Transform.rotate(
-                            angle: rotation,
+                        if (index < currentProfileIndex) {
+                          return Positioned(
+                            top: topPosition,
+                            left: -MediaQuery.of(context).size.width,
+                            child: Container(), // La carte disparaît
+                          );
+                        } else if (index == currentProfileIndex) {
+                          return AnimatedPositioned(
+                            duration: const Duration(milliseconds: 300),
+                            top: topPosition,
+                            right: 0,
+                            left: 0,
                             child: GestureDetector(
                               onPanUpdate: (details) {
-                  
                                 if (details.delta.dx > 0) {
                                   handleLike();
                                 } else {
@@ -102,8 +103,14 @@ class _HomePageState extends State<HomePage> {
                               },
                               child: userProfile,
                             ),
-                          ),
-                        );
+                          );
+                        } else {
+                          return Positioned(
+                            top: topPosition,
+                            right: -MediaQuery.of(context).size.width,
+                            child: Container(),
+                          );
+                        }
                       }).toList(),
                     ),
                   ),

@@ -41,6 +41,7 @@ dependencies:
   flutter_profile_picture: ^2.0.0
   file_picker: ^5.5.0
   firebase_storage: ^11.2.8
+  location: ^5.0.3
 
 dev_dependencies:
   flutter_test:
