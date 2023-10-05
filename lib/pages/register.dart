@@ -73,110 +73,113 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       backgroundColor: GreyColor,
       body: SafeArea(
+        child: SingleChildScrollView(
           child: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              //logo
-              Image.asset(
-                'images/logo.png',
-                width: 75,
-                height: 75,
-              ),
-              //greetings
-              const SizedBox(
-                height: 25,
-              ),
-              const Text("Register to get access !"),
-              //email
-              const SizedBox(
-                height: 25,
-              ),
-              MyTextField(
-                controller: emailTextController,
-                hintText: "johndoe@email.com",
-                obscureText: false,
-              ),
-              // bio
-              const SizedBox(
-                height: 10,
-              ),
-              MyTextField(
-                  controller: bioController,
-                  hintText: "Say something about yourself",
-                  obscureText: false),
-              // age
-              const SizedBox(
-                height: 10,
-              ),
-              MyTextField(
-                  controller: ageController,
-                  hintText: "18",
-                  obscureText: false),
-              // experience
-              const SizedBox(
-                height: 10,
-              ),
-              MyTextField(
-                  controller: experienceController,
-                  hintText: "What's your most recent experience ?",
-                  obscureText: false),
-              // diploma
-              const SizedBox(
-                height: 10,
-              ),
-              MyTextField(
-                  controller: diplomaController,
-                  hintText: "What's your last diploma ?",
-                  obscureText: false),
-              //password
-              const SizedBox(
-                height: 10,
-              ),
-              MyTextField(
-                controller: passwordTextController,
-                hintText: "Password",
-                obscureText: true,
-              ),
-              //Confirm password
-              const SizedBox(
-                height: 10,
-              ),
-              MyTextField(
-                controller: confirmPasswordTextController,
-                hintText: "Confirm Password",
-                obscureText: true,
-              ),
-              //sign up
-              const SizedBox(
-                height: 25,
-              ),
-              LoginButton(onTap: signUp, text: 'Sign Up'),
-              //Redirect to sign in
-              Row(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Already have an account ? '),
-                  const SizedBox(
+                  //logo
+                  Image.asset(
+                    'images/logo.png',
+                    width: 75,
                     height: 75,
                   ),
-                  GestureDetector(
-                    onTap: widget.onTap,
-                    child: Text(
-                      'Log in now',
-                      style: TextStyle(
-                          color: Colors.blue.shade400,
-                          fontWeight: FontWeight.bold),
-                    ),
+                  //greetings
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  const Text("Register to get access !"),
+                  //email
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  MyTextField(
+                    controller: emailTextController,
+                    hintText: "johndoe@email.com",
+                    obscureText: false,
+                  ),
+                  // bio
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MyTextField(
+                      controller: bioController,
+                      hintText: "Say something about yourself",
+                      obscureText: false),
+                  // age
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MyTextField(
+                      controller: ageController,
+                      hintText: "18",
+                      obscureText: false),
+                  // experience
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MyTextField(
+                      controller: experienceController,
+                      hintText: "What's your most recent experience ?",
+                      obscureText: false),
+                  // diploma
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MyTextField(
+                      controller: diplomaController,
+                      hintText: "What's your last diploma ?",
+                      obscureText: false),
+                  //password
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MyTextField(
+                    controller: passwordTextController,
+                    hintText: "Password",
+                    obscureText: true,
+                  ),
+                  //Confirm password
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MyTextField(
+                    controller: confirmPasswordTextController,
+                    hintText: "Confirm Password",
+                    obscureText: true,
+                  ),
+                  //sign up
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  LoginButton(onTap: signUp, text: 'Sign Up'),
+                  //Redirect to sign in
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Already have an account ? '),
+                      const SizedBox(
+                        height: 75,
+                      ),
+                      GestureDetector(
+                        onTap: widget.onTap,
+                        child: Text(
+                          'Log in now',
+                          style: TextStyle(
+                              color: Colors.blue.shade400,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ],
                   )
                 ],
-              )
-            ],
+              ),
+            ),
           ),
-        ),
-      )),
+        )
+      ),
     );
   }
 }
