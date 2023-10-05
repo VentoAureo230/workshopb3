@@ -70,39 +70,42 @@ class _HomePageState extends State<HomePage> {
               children: [
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.8,
-                  child: Stack(
-                    children: userProfiles.asMap().entries.map((entry) {
-                      final index = entry.key;
-                      final userProfile = entry.value;
-
-                      final topPosition = index * 20.0;
-                      final rotation = index == currentProfileIndex
-                          ? 0.0
-                          : index < currentProfileIndex
-                              ? -0.1
-                              : 0.1;
-
-                      return AnimatedPositioned(
-                        duration: const Duration(milliseconds: 300),
-                        top: topPosition,
-                        right: 0,
-                        left: 0,
-                        child: Transform.rotate(
-                          angle: rotation,
-                          child: GestureDetector(
-                            onPanUpdate: (details) {
-
-                              if (details.delta.dx > 0) {
-                                handleLike();
-                              } else {
-                                handleSkip();
-                              }
-                            },
-                            child: userProfile,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 65),
+                    child: Stack(
+                      children: userProfiles.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final userProfile = entry.value;
+                  
+                        final topPosition = index * 20.0;
+                        final rotation = index == currentProfileIndex
+                            ? 0.0
+                            : index < currentProfileIndex
+                                ? -0.1
+                                : 0.1;
+                  
+                        return AnimatedPositioned(
+                          duration: const Duration(milliseconds: 300),
+                          top: topPosition,
+                          right: 0,
+                          left: 0,
+                          child: Transform.rotate(
+                            angle: rotation,
+                            child: GestureDetector(
+                              onPanUpdate: (details) {
+                  
+                                if (details.delta.dx > 0) {
+                                  handleLike();
+                                } else {
+                                  handleSkip();
+                                }
+                              },
+                              child: userProfile,
+                            ),
                           ),
-                        ),
-                      );
-                    }).toList(),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
                 Padding(

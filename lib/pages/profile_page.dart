@@ -178,7 +178,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: const Text('Upload Profile Picture'),
                     ),
                   ),
-
                   // user email
                   Text(
                     'Email : ${currentUser.email!}',
