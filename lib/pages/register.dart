@@ -43,7 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
               email: emailTextController.text,
               password: passwordTextController.text);
 
-      FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection("Users")
           .doc(userCreds.user!.email)
           .set({
@@ -75,6 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
+
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Column(

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:workshopb3/components/app_bar.dart';
 import 'package:workshopb3/components/user_slide.dart';
@@ -15,9 +16,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int currentIndex = 0;
+  int currentIndex = 0; // nav bar
+  final allUsers = FirebaseFirestore.instance.collection("Users");
+  
   List<UserProfileCard> userProfiles = [
     const UserProfileCard(
+
       image: 'images/man.png',
       fullName: 'John Smith',
       workplace: 'Alliance Healtcare',
@@ -38,7 +42,6 @@ class _HomePageState extends State<HomePage> {
       experiences: 'UX/UI Designer with a focus on mobile apps.',
       diplomas: 'Bachelor\'s in Graphic Design',
     ),
-    // Add more user profiles here...
   ];
   int currentProfileIndex = 0;
 

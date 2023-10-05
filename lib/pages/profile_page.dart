@@ -20,7 +20,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
   String? profileImageUrl;
+
   // user
   final currentUser = FirebaseAuth.instance.currentUser!;
   // all users
@@ -39,6 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
               title: Text(message),
             ));
   }
+
 
   Future<void> uploadProfileImage() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -93,6 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
       return null;
     }
   }
+
 
   Future<void> uploadFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -178,6 +182,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       onPressed: uploadProfileImage,
                       child: const Text('Upload Profile Picture'),
                     ),
+
                   ),
                   // user email
                   Text(
@@ -249,6 +254,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ],
                   ),
+
                 ],
               );
             } else if (snapshot.hasError) {

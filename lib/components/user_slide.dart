@@ -23,7 +23,6 @@ class UserProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4.0,
       margin: const EdgeInsets.all(16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -64,9 +63,14 @@ class UserProfileCard extends StatelessWidget {
               'Diplomas: $diplomas',
               style: const TextStyle(fontSize: 16.0),
             ),
+            Text("Age: $age"),
+            Text("Biography: $biography"),
+            Text("Experiences: $experiences"),
+            Text("Diplomas: $diplomas"),
           ],
         ),
       ),
     );
   }
 }
+
