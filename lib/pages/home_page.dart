@@ -21,7 +21,6 @@ class _HomePageState extends State<HomePage> {
   
   List<UserProfileCard> userProfiles = [
     const UserProfileCard(
-
       image: 'images/man.png',
       fullName: 'John Smith',
       workplace: 'Alliance Healtcare',
