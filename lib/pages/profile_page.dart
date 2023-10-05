@@ -9,6 +9,7 @@ import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:workshopb3/components/app_bar.dart';
 import 'package:workshopb3/components/text_box.dart';
 import 'package:workshopb3/theme/colors.dart';
+import '../components/btn/toogle_btn.dart';
 
 class ProfilePage extends StatefulWidget {
   final Function()? onTap;
@@ -232,8 +233,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SizedBox(
                     height: 15,
                   ),
-                  //TextButton(onPressed: uploadPdfToStorage, child: const Text('Resume')),
-                  // sign out
+                  const ToggleBtn(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
