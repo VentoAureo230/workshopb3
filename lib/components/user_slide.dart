@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class UserProfileCard extends StatelessWidget {
+  final String image;
   final String fullName;
   final String age;
   final String biography;
@@ -8,7 +9,8 @@ class UserProfileCard extends StatelessWidget {
   final String diplomas;
 
   const UserProfileCard({
-    super.key, 
+    super.key,
+    required this.image,
     required this.fullName,
     required this.age,
     required this.biography,
@@ -26,6 +28,8 @@ class UserProfileCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Image.asset(image),
+            const SizedBox(height: 8.0),
             Text(
               'Full Name: $fullName',
               style: const TextStyle(

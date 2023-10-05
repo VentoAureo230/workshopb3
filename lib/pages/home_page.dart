@@ -18,13 +18,16 @@ class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
   List<UserProfileCard> userProfiles = [
     const UserProfileCard(
+      image: 'images/man.png',
       fullName: 'John Doe',
       age: '30',
       biography: 'A software developer who loves coding.',
       experiences: '5 years of experience in mobile app development.',
-      diplomas: 'Bachelor\'s in Computer Science, Master\'s in Software Engineering',
+      diplomas:
+          'Bachelor\'s in Computer Science, Master\'s in Software Engineering', 
     ),
     const UserProfileCard(
+      image: 'images/woman.png',
       fullName: 'Jane Smith',
       age: '28',
       biography: 'Passionate about design and user experience.',
@@ -66,18 +69,40 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.8, // Adjust height as needed
-                  child: ListView.builder(
-                    itemCount: userProfiles.length,
-                    itemBuilder: (context, index) {
-                      final userProfile = userProfiles[index];
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  child: Stack(
+                    children: userProfiles.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final userProfile = entry.value;
+
+                      final topPosition = index * 20.0;
+                      final rotation = index == currentProfileIndex
+                          ? 0.0
+                          : index < currentProfileIndex
+                              ? -0.1
+                              : 0.1;
+
                       return AnimatedPositioned(
                         duration: const Duration(milliseconds: 300),
-                        left: index == currentProfileIndex ? 0 : -MediaQuery.of(context).size.width,
-                        right: index == currentProfileIndex ? 0 : -MediaQuery.of(context).size.width,
-                        child: userProfile,
+                        top: topPosition,
+                        right: 0,
+                        left: 0,
+                        child: Transform.rotate(
+                          angle: rotation,
+                          child: GestureDetector(
+                            onPanUpdate: (details) {
+
+                              if (details.delta.dx > 0) {
+                                handleLike();
+                              } else {
+                                handleSkip();
+                              }
+                            },
+                            child: userProfile,
+                          ),
+                        ),
                       );
-                    },
+                    }).toList(),
                   ),
                 ),
                 Padding(
@@ -86,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top:12),
+                        padding: const EdgeInsets.only(top: 12),
                         child: RewindBtn(
                           onTap: () {
                             handleSkip();
@@ -104,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top:12),
+                        padding: const EdgeInsets.only(top: 12),
                         child: SuperLikeBtn(
                           onTap: () {
                             handleLike();

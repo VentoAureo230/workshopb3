@@ -19,6 +19,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  String? profileImageUrl;
   // user
   final currentUser = FirebaseAuth.instance.currentUser!;
   // all users
@@ -36,6 +37,44 @@ class _ProfilePageState extends State<ProfilePage> {
         builder: (context) => AlertDialog(
               title: Text(message),
             ));
+  }
+
+  Future<void> uploadProfileImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image, // Seuls les fichiers image sont autorisés
+    );
+
+    if (result != null) {
+      File imageFile = File(result.files.single.path!);
+
+      // Utilisez Firebase Storage pour stocker l'image ou l'endroit de votre choix
+      // Mettez à jour le chemin de l'image dans profileImageUrl
+      String imageUrl = await uploadImageToStorage(imageFile);
+
+      // ignore: unnecessary_null_comparison
+      if (imageUrl != null) {
+        setState(() {
+          profileImageUrl = imageUrl;
+        });
+      } else {
+        displayMessage('Image upload failed.');
+      }
+    }
+  }
+
+  Future uploadImageToStorage(File imgFile) async {
+    try {
+      Reference ref = FirebaseStorage.instance
+          .ref()
+          .child('imgs/${DateTime.now().millisecondsSinceEpoch}');
+      UploadTask uploadTask =
+          ref.putFile(imgFile, SettableMetadata(contentType: 'img'));
+      TaskSnapshot snapshot = await uploadTask;
+      String url = await snapshot.ref.getDownloadURL();
+      return url;
+    } catch (e) {
+      return null;
+    }
   }
 
   // filepicker
@@ -57,8 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> uploadFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
-      File file =
-          File(result.files.single.path!);
+      File file = File(result.files.single.path!);
       String? url = await uploadPdfToStorage(file);
 
       if (url != null) {
@@ -129,13 +167,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   // profile picture
                   ProfilePicture(
-                    name: userData['username'],
-                    radius: 31,
-                    fontsize: 21,
+                      name: userData['username'],
+                      radius: 31,
+                      fontsize: 21,
+                      img: profileImageUrl),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25, right: 25),
+                    child: ElevatedButton(
+                      onPressed: uploadProfileImage,
+                      child: const Text('Upload Profile Picture'),
+                    ),
                   ),
+
                   // user email
                   Text(
-                    currentUser.email!,
+                    'Email : ${currentUser.email!}',
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(
@@ -193,12 +239,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
-                          onPressed: signOut, 
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: CrimsonColor
-                          ),
-                          child: const Text('Sign out'),
-                          ),
+                        onPressed: signOut,
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: CrimsonColor),
+                        child: const Text('Sign out'),
+                      ),
                       ElevatedButton(
                         onPressed: uploadFile,
                         child: const Text('Upload Resume'),
