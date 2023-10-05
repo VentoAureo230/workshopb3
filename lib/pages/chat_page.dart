@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:workshopb3/components/app_bar.dart';
 import 'package:workshopb3/theme/colors.dart';
