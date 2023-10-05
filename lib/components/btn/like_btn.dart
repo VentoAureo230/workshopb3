@@ -10,8 +10,8 @@ class LikeBtn extends StatelessWidget {
     return GestureDetector(
         onTap: onTap,
         child: Container(
-          width: 65,
           height: 65,
+          width: 65,
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
             color: AquaColor,
@@ -19,8 +19,8 @@ class LikeBtn extends StatelessWidget {
           child: const Center(
             child: Icon(
               Icons.favorite_rounded,
-              color: Colors.white,
-              size: 40,
+              color: WhiteColor,
+              size: 50,
             ),
           ),
         ));

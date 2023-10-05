@@ -9,6 +9,7 @@ import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:workshopb3/components/app_bar.dart';
 import 'package:workshopb3/components/text_box.dart';
 import 'package:workshopb3/theme/colors.dart';
+import '../components/btn/toogle_btn.dart';
 
 class ProfilePage extends StatefulWidget {
   final Function()? onTap;
@@ -19,6 +20,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+  String? profileImageUrl;
+
   // user
   final currentUser = FirebaseAuth.instance.currentUser!;
   // all users
@@ -38,7 +42,46 @@ class _ProfilePageState extends State<ProfilePage> {
             ));
   }
 
-  // Uploader
+
+  Future<void> uploadProfileImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image, // Seuls les fichiers image sont autorisés
+    );
+
+    if (result != null) {
+      File imageFile = File(result.files.single.path!);
+
+      // Utilisez Firebase Storage pour stocker l'image ou l'endroit de votre choix
+      // Mettez à jour le chemin de l'image dans profileImageUrl
+      String imageUrl = await uploadImageToStorage(imageFile);
+
+      // ignore: unnecessary_null_comparison
+      if (imageUrl != null) {
+        setState(() {
+          profileImageUrl = imageUrl;
+        });
+      } else {
+        displayMessage('Image upload failed.');
+      }
+    }
+  }
+
+  Future uploadImageToStorage(File imgFile) async {
+    try {
+      Reference ref = FirebaseStorage.instance
+          .ref()
+          .child('imgs/${DateTime.now().millisecondsSinceEpoch}');
+      UploadTask uploadTask =
+          ref.putFile(imgFile, SettableMetadata(contentType: 'img'));
+      TaskSnapshot snapshot = await uploadTask;
+      String url = await snapshot.ref.getDownloadURL();
+      return url;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // filepicker
   Future uploadPdfToStorage(File pdfFile) async {
     try {
       Reference ref = FirebaseStorage.instance
@@ -54,19 +97,14 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  // Fonction pour choisir et uploader un fichier
+
   Future<void> uploadFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
-
     if (result != null) {
-      File file =
-          File(result.files.single.path!); // Use ! to assert that it's not null
-
-      // Call your uploadPdfToStorage function with the chosen file
+      File file = File(result.files.single.path!);
       String? url = await uploadPdfToStorage(file);
 
       if (url != null) {
-        // The upload was successful, do whatever you want with the URL
         displayMessage('File uploaded successfully. URL: $url');
       } else {
         displayMessage('File upload failed.');
@@ -134,13 +172,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   // profile picture
                   ProfilePicture(
-                    name: userData['username'],
-                    radius: 31,
-                    fontsize: 21,
+                      name: userData['username'],
+                      radius: 31,
+                      fontsize: 21,
+                      img: profileImageUrl),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25, right: 25),
+                    child: ElevatedButton(
+                      onPressed: uploadProfileImage,
+                      child: const Text('Upload Profile Picture'),
+                    ),
+
                   ),
                   // user email
                   Text(
-                    currentUser.email!,
+                    'Email : ${currentUser.email!}',
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(
@@ -192,16 +238,23 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SizedBox(
                     height: 15,
                   ),
+                  const ToggleBtn(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      TextButton(
-                          onPressed: uploadFile, child: const Text('Resume')),
-                      // sign out
-                      TextButton(
-                          onPressed: signOut, child: const Text('Sign out')),
+                      ElevatedButton(
+                        onPressed: signOut,
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: CrimsonColor),
+                        child: const Text('Sign out'),
+                      ),
+                      ElevatedButton(
+                        onPressed: uploadFile,
+                        child: const Text('Upload Resume'),
+                      ),
                     ],
-                  )
+                  ),
+
                 ],
               );
             } else if (snapshot.hasError) {

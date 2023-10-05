@@ -21,15 +21,22 @@ class _HomePageState extends State<HomePage> {
   
   List<UserProfileCard> userProfiles = [
     const UserProfileCard(
-      fullName: 'John Doe',
-      age: '30',
-      biography: 'A software developer who loves coding.',
-      experiences: '5 years of experience in mobile app development.',
+
+      image: 'images/man.png',
+      fullName: 'John Smith',
+      workplace: 'Alliance Healtcare',
+      age: '35',
+      biography:
+          'I am an HR prfessional specializing in healthcare recruitment.',
+      experiences: '10 years of experience in healthcare HR recruitment.',
       diplomas:
-          'Bachelor\'s in Computer Science, Master\'s in Software Engineering',
+          'Bachelor\'s in Human Resources, Master\'s in Healthcare Management',
     ),
+
     const UserProfileCard(
-      fullName: 'Jane Smith',
+      image: 'images/woman.png',
+      fullName: 'Jane Smith', 
+      workplace: 'Extia',
       age: '28',
       biography: 'Passionate about design and user experience.',
       experiences: 'UX/UI Designer with a focus on mobile apps.',
@@ -69,30 +76,48 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 SizedBox(
-                    height: MediaQuery.of(context).size.height *
-                        0.8, // Adjust height as needed
-                    child: ListView.builder(
-                      itemCount: userProfiles.length,
-                      itemBuilder: (context, index) {
-                        final userProfile = userProfiles[index];
-                        return AnimatedPositioned(
-                          duration: const Duration(milliseconds: 300),
-                          left: index == currentProfileIndex
-                              ? 0
-                              : -MediaQuery.of(context).size.width,
-                          right: index == currentProfileIndex
-                              ? 0
-                              : -MediaQuery.of(context).size.width,
-                          child: UserProfileCard(
-                            fullName: userProfile.fullName,
-                            age: userProfile.age,
-                            biography: userProfile.biography,
-                            experiences: userProfile.experiences,
-                            diplomas: userProfile.diplomas,
-                          ),
-                        );
-                      },
-                    )),
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 65),
+                    child: Stack(
+                      children: userProfiles.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final userProfile = entry.value;
+                        final topPosition = index * 20.0;
+                        if (index < currentProfileIndex) {
+                          return Positioned(
+                            top: topPosition,
+                            left: -MediaQuery.of(context).size.width,
+                            child: Container(), // La carte disparaît
+                          );
+                        } else if (index == currentProfileIndex) {
+                          return AnimatedPositioned(
+                            duration: const Duration(milliseconds: 300),
+                            top: topPosition,
+                            right: 0,
+                            left: 0,
+                            child: GestureDetector(
+                              onPanUpdate: (details) {
+                                if (details.delta.dx > 0) {
+                                  handleLike();
+                                } else {
+                                  handleSkip();
+                                }
+                              },
+                              child: userProfile,
+                            ),
+                          );
+                        } else {
+                          return Positioned(
+                            top: topPosition,
+                            right: -MediaQuery.of(context).size.width,
+                            child: Container(),
+                          );
+                        }
+                      }).toList(),
+                    ),
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20, bottom: 20),
                   child: Row(
