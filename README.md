@@ -1,16 +1,19 @@
-# workshopb3
+# Workshopb3 - Jobbe
 
-A new Flutter project.
+Projet Flutter d'application mobile pour le workshop B3 2023 - 2024.
 
-## Getting Started
+## Intaller et démarrer le projet
 
-This project is a starting point for a Flutter application.
+Le SDK Flutter (https://docs.flutter.dev/get-started/install) sur un poste.
 
-A few resources to get you started if this is your first Flutter project:
+Une fois que le dépôt Git est cloné :
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+  ```cd workshop```
+  
+  Installation des dépendences:
+  ```flutter pub get```
+  
+  Lancement du projet :
+  ```flutter run```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Il est préférable de lancer le projet sur un téléphone Android branché au PC pour des soucis de performance.
