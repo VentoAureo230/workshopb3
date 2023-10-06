@@ -13,4 +13,5 @@ It's not meant to be used in real condition. If you ever try it out, please make
 - Cloner le dépôt Git
 - ```cd workshopb3```
 - Installation des dépendences ```flutter pub get```
+- Sélectionner l'appareil de compilation (possibilité de paramétré avec Android Studio ou VSCode)
 - Compilation et installation du projet ```flutter run``` 
